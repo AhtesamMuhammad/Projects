@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inici</title>
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/carrosel_style.css">
+
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <a href="/"><img src="./images/logo_ajuntament.png" alt="Logo de la empresa"></a>
+    </div>
+    <div class="menu">
+        <ul >
+            <li class="botton selected"><a href="/">Inicio</a></li>
+            <li class="botton"><a href="/Pag_esdeveniments.html">Esdeveniments</a></li>
+            <li class="botton"><a href="/Pag_recintes.html">Recintes</a></li>
+            <li class="botton"><a href="/Pag_opinions.html">Opinions</a></li>
+            <li ><a href="/Pag_reserves.html" class="reserva">Reservas</a></li>
+            <li class="botton" ><a href="/Pag_usuaris.html" id="usuarisPageLink" style="display: block">Usuaris</a></li>
+            <li class="botton"><a href="#" id="logoutLink" style="display: none;">Cerrar sesión</a></li>
+            <li class="botton"><a href="/Pag_login.html" id="loginLink" style="display: none;">Iniciar sesió</a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="background">
+    <div class="slider">
+        <div class="slider-container">
+            <div class="slide">
+                <img src="https://img2.rtve.es/imagenes/concierto/1626088107626.jpg" alt="Slide 2">
+                <h2 class="slide-title">Título del Slide 2</h2>
+            </div>
+            <div class="slide">
+                <img src="https://i.blogs.es/c7ba83/rock-band/1366_2000.jpg" alt="Slide 1">
+                <h2 class="slide-title">Título del Slide 1</h2>
+            </div>
+            <div class="slide">
+                <img src="https://i.blogs.es/c7ba83/rock-band/1366_2000.jpg" alt="Slide 3">
+                <h2 class="slide-title">Título del Slide 3</h2>
+            </div>
+        </div>
+        <a class="prev" onclick="prevSlide()">&#10094;</a>
+        <a class="next" onclick="nextSlide()">&#10095;</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+        <p class="text">El nostre Ajuntament treballa per millorar la qualitat de vida dels ciutadans, promovent la
+            participació ciutadana i oferint serveis eficients i transparents. Volem arribar a totes les personas de Provincia de Catalunya
+            amb els esdeveniments que anem treien i aixi tindre una ciutat extrovertida i xixa.
+        </p>
+    </div>
+    <div class="title">
+        <h1>Ajuntament</h1>
+        <h2>Sempre colaborant</h2>
+    </div>
+</div>
+
+<br><br><br><br>
+
+<script src="./javascripts/funciones.js"></script>
+<script src="javascripts/slider.js"></script>
+</body>
+</html>

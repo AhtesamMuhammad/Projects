@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inició de sesión</title>
+    <link rel="stylesheet" type="text/css" href="./stylesheets/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="app.js"></script>
+    <style>
+
+        form {
+            background-color: #fff;
+            padding: 40px 40px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #ffc45b;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ffaf2f;
+        }
+
+        .estil_form {
+            padding: 50px 500px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <a href="/"><img src="./images/logo_ajuntament.png" alt="Logo de la empresa"></a>
+    </div>
+    <div class="menu">
+        <ul >
+            <li class="botton"><a href="/">Inicio</a></li>
+            <li class="botton"><a href="/Pag_esdeveniments.html">Esdeveniments</a></li>
+            <li class="botton"><a href="/Pag_recintes.html">Recintes</a></li>
+            <li class="botton"><a href="/Pag_opinions.html">Opinions</a></li>
+            <li ><a href="/Pag_reserves.html" class="reserva">Reservas</a></li>
+            <li class="botton" ><a href="/Pag_usuaris.html" id="usuarisPageLink" style="display: block">Usuaris</a></li>
+            <li class="botton"><a href="#" id="logoutLink" style="display: none;">Cerrar sesión</a></li>
+            <li class="botton"><a href="/Pag_login.html" id="loginLink" style="display: none;">Iniciar sesió</a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="estil_form">
+    <form id="login-form" action="/login" method="POST">
+        <h1>Iniciar sesión</h1>
+        <br><br>
+        <label for="correu_electronic">Correu electronic</label>
+        <input type="text" id="correu_electronic" name="correu_electronic" placeholder="exemple@gmail.com" required><br>
+        <label for="contrasenya">Contrasenya</label>
+        <input type="password" id="contrasenya" name="contrasenya" placeholder="sadfpASDf.." required><br>
+        <button type="submit">Iniciar sesión</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#login-form').submit(function (event) {
+            event.preventDefault();
+
+            const email = $('#correu_electronic').val();
+            const password = $('#contrasenya').val();
+
+            console.log(email)
+            console.log(password)
+
+            $.ajax({
+                type: 'POST',
+                url: '/login',
+                data: JSON.stringify({email, password}),
+                contentType: 'application/json',
+                success: function (response) {
+                    if (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Inicio de sesión exitoso',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = '/index.html'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Los datos son incorrectos',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                },
+                error: function (error) {
+                    const errorMessage = error.responseText || 'Los datos de inicio de sesión no son correctos.';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en el inicio de sesión',
+                        text: errorMessage,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>

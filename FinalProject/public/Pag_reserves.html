@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserves</title>
+    <!--jQuery, JSRender, jQuery-SerializeObject-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+            integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.13/jsrender.min.js"
+            integrity="sha512-T93uOawQ+FrEdyCPaWrQtppurbLm8SISu2QnHyddM0fGXKX9Amyirwibe1wGYbsW2F8lLzhOM/2+d3Zo94ljRQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"
+            integrity="sha512-Gn0tSSjkIGAkaZQWjx3Ctl/0dVJuTmjW/f9QyB302kFjU4uTNP4HtA32U2qXs/TRlEsK5CoEqMEMs7LnzLOBsA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--Navigo y dataTables-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/navigo/8.11.1/navigo.min.js"
+            referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+    <!-- estilos -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/carrosel_style.css">
+
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <a href="/"><img src="./images/logo_ajuntament.png" alt="Logo de la empresa"></a>
+    </div>
+    <div class="menu">
+        <ul >
+            <li class="botton"><a href="/">Inicio</a></li>
+            <li class="botton"><a href="/Pag_esdeveniments.html">Esdeveniments</a></li>
+            <li class="botton"><a href="/Pag_recintes.html">Recintes</a></li>
+            <li class="botton"><a href="/Pag_opinions.html">Opinions</a></li>
+            <li ><a href="/Pag_reserves.html" class="reserva selected">Reservas</a></li>
+            <li class="botton" ><a href="/Pag_usuaris.html" id="usuarisPageLink" style="display: block">Usuaris</a></li>
+            <li class="botton"><a href="#" id="logoutLink" style="display: none;">Cerrar sesión</a></li>
+            <li class="botton"><a href="/Pag_login.html" id="loginLink" style="display: none;">Iniciar sesió</a></li>
+        </ul>
+    </div>
+</header>
+
+<!-- ///////////////////////////////  -->
+<script id="reserves_template" type="text/x-handlebars-template">
+    <div class="reserves_script">
+    <div class="reserva_difuminado">
+        <br>
+        <br>
+        <button><a href="#/add" class="btn btn-lg btn-outline-secondary">Nueva Reserva</a></button>
+        <br><br>
+    <table id="myTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Client</th> <!-- quitar al final -->
+            <th>Esdeveniment</th>
+            <th>Data de reserva</th>
+            <th>Entrades reservades</th>
+            <th>Pagades</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+    <tbody>
+    {{for reserves}}
+    <tr>
+        <td>{{:ID}}</td>
+        <td>{{:Client}}</td>
+        <td>{{:Esdeveniment}}</td>
+        <td>{{:DataReserva}}</td>
+        <td>{{:EntradesReservades}}</td>
+        <td>{{:Pagades}}</td>
+    <td>
+    {{if isAdmin}}
+        <button><a href="#/modify?id={{:ID}}">Modificar</a></button>
+    {{/if}}
+        <button><a href="#/delete?id={{:ID}}" >Eliminar</a></button>
+    </td>
+    </tr>
+    {{/for}}
+    </tbody>
+    </table>
+        <br><br>
+    </div>
+    </div>
+</script>
+
+<script id="modify_reserva_template" type="text/x-handlebars-template">
+    <br><br>
+    <div class="reserves_script">
+    <div class="reserva_difuminado">
+        <h2>Estas modificando la reserva :  {{:reserva.ID}}</h2>
+    <form id="modify_reserva_form">
+
+    <div>
+        <label for="EsdevenimentSelect">Esdeveniment</label><br>
+    <select class="form-control" id="EsdevenimentSelect" name="Esdeveniment">
+    {{for esdeveniments.esdeveniments ~reserva = reserva}}
+            <option value="{{:Nom}}"
+    {{if ~reserva.Esdeveniment === Nom}}
+                    selected{{/if}}>{{:Nom}}
+    </option>
+    {{/for}}
+    </select>
+    </div>
+        <br>
+        <div>
+            <label for="DataReserva">Data reserva</label><br>
+            <input type="date" class="form-control" id="DataReserva" name="DataReserva"
+                   value="{{:reserva.DataReserva}}">
+        </div>
+        <br>
+        <div>
+            <label for="EntradesReservades">Entrades reservades</label><br>
+            <input type="number" class="form-control" id="EntradesReservades" name="EntradesReservades"
+                   value="{{:reserva.EntradesReservades}}">
+        </div>
+        <br>
+        <div>
+            <label for="Pagades">Pagades</label><br>
+            <input type="number" class="form-control" id="Pagades" name="Pagades" value="{{:reserva.Pagades}}">
+        </div>
+        <br>
+        <button type="submit" id="submit_modify_reserva_form" data-id="{{:reserva.ID}}">Modificar
+        </button>
+    </form>
+        <br><br>
+    </div>
+    </div>
+</script>
+
+<script id="add_reserva_template" type="text/x-handlebars-template">
+    <br><br>
+    <div class="reserves_script">
+    <div class="reserva_difuminado">
+        <h2>Insertar nueva reserva</h2>
+    <form id="add_reserva_form">
+
+    <div>
+        <label for="EsdevenimentSelect">Esdeveniment</label><br>
+    <select class="form-control" id="EsdevenimentSelect" name="Esdeveniment">
+    {{for esdeveniments}}
+        <option value="{{:Nom}}">{{:Nom}}</option>
+    {{/for}}
+    </select>
+    </div><br>
+        <div>
+            <label for="DataReserva">Data reserva</label><br>
+            <input type="date" class="form-control" id="DataReserva" name="DataReserva">
+        </div>
+        <br>
+        <div>
+            <label for="EntradesReservades">Entrades reservades</label><br>
+            <input type="number" class="form-control" id="EntradesReservades" name="EntradesReservades">
+        </div>
+        <br>
+        <div>
+            <label for="Pagades">Pagades</label><br>
+            <input type="number" class="form-control" id="Pagades" name="Pagades">
+        </div>
+        <br>
+        <button type="submit" id="submit_reserves_form">Agregar</button>
+        <button onclick="window.location.href='Pag_reservas.html'">Volver</button>
+    </form>
+        <br><br>
+    </div>
+    </div>
+</script>
+
+<div id="app"></div>
+
+<script>
+
+    const router = new Navigo('/', {hash: true});
+
+    router
+        .on('/', showReserves)
+        .on('/reserves.html', showReserves)
+        .on('/add', addReserva)
+        .on('/modify', showModifyReserva)
+        .on('/delete', deleteReserva)
+        .resolve();
+
+    function deleteReserva(params) {
+
+        let id = params.params.id
+
+        $.ajax({
+            url: '/api/reserves/' + id,
+            type: 'DELETE'
+
+        })
+            .then(function (result) {
+                router.navigate('/');
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
+
+    function addReservaForm(event) {
+        event.preventDefault();
+
+        let form = $("#add_reserva_form");
+        let parametros = form.serializeObject();
+        $.getJSON('/api/reserves/', function (datosAforo) {
+                let totalEntradesReservades = 0;
+
+                for (const reserva of datosAforo.reserves) {
+                    if (reserva.Esdeveniment === parametros.Esdeveniment) {
+                        totalEntradesReservades += reserva.EntradesReservades;
+                    }
+                }
+
+                if (datosAforo.EntradesReservades <= parametros.EntradesReservades) {
+                    $.post('/api/reserves/', parametros, function (result) {
+                        router.navigate('/');
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'No hay mas aforo para este evento',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = '/Pag_reserves.html'
+                    });
+                }
+            }
+        ).catch(function (error) {
+            console.log(error);
+        });
+    }
+
+
+    function addReserva() {
+
+        $.getJSON('/api/esdeveniments/', function (esdeveniments) {
+            let html = $('#add_reserva_template').render(esdeveniments)
+            $('#app').html(html);
+
+            $("#submit_reserves_form").on("click", addReservaForm);
+        });
+    }
+
+    function showModifyReserva(params) {
+        let id = params.params.id;
+        $.getJSON('/api/reserves/' + id, function (dataReserva) {
+            $.getJSON(`/api/esdeveniments/`, function (dataEsdeveniment) {
+
+                let reserva = dataReserva
+                let data = {
+                    'reserva': reserva,
+                    'esdeveniments': dataEsdeveniment
+                };
+
+                let html = $('#modify_reserva_template').render(data);
+                $('#app').html(html);
+
+                $('#submit_modify_reserva_form').on('click', function (event) {
+                    modifyReservaForm(event, reserva.ID); // Pasar el ID como argumento adicional
+                });
+            });
+        });
+
+    }
+
+    function modifyReservaForm(event, id) {
+        event.preventDefault();
+
+        let form = $('#modify_reserva_form');
+        let parametros = form.serializeObject();
+
+        $.post('/api/reserves/' + id, parametros, function () {
+            window.location.href = 'reserves.html';
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    function showReserves() {
+
+        $.getJSON('/api/reserves', function (data) {
+            data.reserves.forEach(function (reserve) {
+                reserve.isAdmin = data.isAdmin;
+            });
+            let html = $('#reserves_template').render(data);
+            $('#app').html(html);
+            $('#myTable').DataTable();
+        }).fail(function () {
+            window.location.href = '/Pag_login.html';
+        });
+    }
+
+    $(document).ready(function () {
+        router.navigate('/')
+    });
+
+</script>
+<!-- ///////////////////////////////  -->
+
+<br><br><br><br>
+
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="./javascripts/funciones.js"></script>
+
+</body>
+</html>
