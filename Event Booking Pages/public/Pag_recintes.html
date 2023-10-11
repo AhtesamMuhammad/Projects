@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Recintes</title>
+    <!--jQuery, JSRender, jQuery-SerializeObject-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+            integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.13/jsrender.min.js"
+            integrity="sha512-T93uOawQ+FrEdyCPaWrQtppurbLm8SISu2QnHyddM0fGXKX9Amyirwibe1wGYbsW2F8lLzhOM/2+d3Zo94ljRQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"
+            integrity="sha512-Gn0tSSjkIGAkaZQWjx3Ctl/0dVJuTmjW/f9QyB302kFjU4uTNP4HtA32U2qXs/TRlEsK5CoEqMEMs7LnzLOBsA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/navigo/8.11.1/navigo.min.js"
+            referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" referrerpolicy="no-referrer"></script>
+    <!-- estilos -->
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/carrosel_style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+</head>
+<body>
+<header>
+    <div class="logo">
+        <a href="/"><img src="./images/logo_ajuntament.png" alt="Logo de la empresa"></a>
+    </div>
+    <div class="menu">
+        <ul>
+            <li class="botton"><a href="/">Inicio</a></li>
+            <li class="botton"><a href="/Pag_esdeveniments.html">Esdeveniments</a></li>
+            <li class="botton selected"><a href="/Pag_recintes.html">Recintes</a></li>
+            <li class="botton"><a href="/Pag_opinions.html">Opinions</a></li>
+            <li><a href="/Pag_reserves.html" class="reserva">Reservas</a></li>
+            <li class="botton"><a href="/Pag_usuaris.html" id="usuarisPageLink" style="display: block">Usuaris</a></li>
+            <li class="botton"><a href="#" id="logoutLink" style="display: none;">Cerrar sesión</a></li>
+            <li class="botton"><a href="/Pag_login.html" id="loginLink" style="display: none;">Iniciar sesió</a></li>
+        </ul>
+    </div>
+</header>
+
+<script id="recintes_template" type="text/x-handlebars-template">
+    <div class="reserves_script">
+    <div class="reserva_difuminado">
+        <br>
+
+        <br><br>
+    <table id="myTable">
+        <thead>
+        <tr>
+            <th>Nom del recinte</th>
+            <th>Adreça</th>
+            <th>Superficie</th>
+            <th>Foto</th>
+        </tr>
+        </thead>
+    <tbody>
+    {{for recintes}}
+    <tr>
+        <td>{{:Nom_recinte}}</td>
+        <td>{{:Adreca}}</td>
+        <td>{{:Superficie}}</td>
+        <td><img src="{{:Foto}}" style="width: 100px"></td>
+    </tr>
+    {{/for}}
+    </tbody>
+    </table>
+    </div>
+    </div>
+</script>
+
+<div id="app"></div>
+
+<script>
+    const router = new Navigo('/', {hash: true})
+    router
+        .on('/', showRecintes)
+        .on('/Pag_recintes.html', showRecintes)
+        .resolve();
+
+    function showRecintes() {
+        $.getJSON('/api/recintes/', function (data) {
+            let htmlRecintes = $('#recintes_template').render(data);
+
+            $('#app').html(htmlRecintes);
+            $('#myTable').DataTable();
+        });
+    }
+
+</script>
+</body>
+</html>

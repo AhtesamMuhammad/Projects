@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Esdeveniments</title>
+    <!--jQuery, JSRender, jQuery-SerializeObject-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+            integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.13/jsrender.min.js"
+            integrity="sha512-T93uOawQ+FrEdyCPaWrQtppurbLm8SISu2QnHyddM0fGXKX9Amyirwibe1wGYbsW2F8lLzhOM/2+d3Zo94ljRQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"
+            integrity="sha512-Gn0tSSjkIGAkaZQWjx3Ctl/0dVJuTmjW/f9QyB302kFjU4uTNP4HtA32U2qXs/TRlEsK5CoEqMEMs7LnzLOBsA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--Navigo and dataTables-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/navigo/8.11.1/navigo.min.js"
+            referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" referrerpolicy="no-referrer"></script>
+
+    <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/carrosel_style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <a href="/"><img src="./images/logo_ajuntament.png" alt="Logo de la empresa"></a>
+    </div>
+    <div class="menu">
+        <ul >
+            <li class="botton"><a href="/">Inicio</a></li>
+            <li class="botton selected"><a href="/Pag_esdeveniments.html">Esdeveniments</a></li>
+            <li class="botton"><a href="/Pag_recintes.html">Recintes</a></li>
+            <li class="botton"><a href="/Pag_opinions.html">Opinions</a></li>
+            <li ><a href="/Pag_reserves.html" class="reserva">Reservas</a></li>
+            <li class="botton" ><a href="/Pag_usuaris.html" id="usuarisPageLink" style="display: block">Usuaris</a></li>
+            <li class="botton"><a href="#" id="logoutLink" style="display: none;">Cerrar sesión</a></li>
+            <li class="botton"><a href="/Pag_login.html" id="loginLink" style="display: none;">Iniciar sesió</a></li>
+        </ul>
+    </div>
+</header>
+
+<!-- ///////////////////////////////  -->
+<script id="esdeveniments_template" type="text/x-handlebars-template">
+
+    <div class="reserves_script">
+    <div class="reserva_difuminado">
+    <table id="myTable">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Data</th>
+            <th>Recinte</th>
+            <th>Descripcio</th>
+            <th>Foto</th>
+            <th>Detalles</th>
+        </tr>
+        </thead>
+    <tbody>
+    {{for esdeveniments}}
+    <tr>
+        <td>{{:Nom}}</td>
+        <td>{{:Data}}</td>
+        <td>{{:Recinte}}</td>
+        <td>{{:Descripcio}}</td>
+        <td><img class="esdev_img" src="{{:Foto}}"></td>
+        <td>
+            <button id="detail_botton" data-id="{{:id}}">Ver Detalles</button>
+        </td>
+    </tr>
+    {{/for}}
+    </tbody>
+    </table>
+    </div></div>
+    <br><br>
+</script>
+
+<script id="detall_template" type="text/x-handlebars-template">
+    <div class="reserves_script">
+        <div class="reserva_difuminado">
+            <br>
+            <div class="breadcrumb">
+                <a href="/Pag_esdeveniments.html" style="color: black">Esdeveniments</a> &raquo;
+                <span>Detalls de los esdeveniments</span>
+            </div>
+            <div class="details_container">
+                <div class="details">
+                    <h5>
+                        Nom: {{:Nom}}
+                    </h5>
+                    <h5>
+                        <td>Data: {{:Data}}</td>
+                    </h5>
+                    <h5>
+                        <td>Hora: {{:Hora}}</td>
+                    </h5>
+                    <h5>
+                        <td>Recinte: {{:Recinte}}</td>
+                    </h5>
+                    <h5>
+                        <td>Descripció: {{:Descripcio}}</td>
+                    </h5>
+                    <h5>
+                        <td>Preu: {{:Preu}}</td>
+                    </h5>
+                    <h5>
+                        <td>Aforament: {{:Aforament}}</td>
+                    </h5>
+                </div>
+                <div class="img_details">
+                    <img class="esdev_img" src="{{:Foto}}">
+                </div>
+            </div>
+            <br>
+            <br>
+        </div>
+    </div>
+    <br><br>
+</script>
+
+<div id="app"></div>
+
+<script>
+    // Initialize the router with a base path and hash-based routing
+    const router = new Navigo('/', { hash: true });
+
+    // Define routing for different paths
+    router
+        .on('/', showEsdeveniments) // Route for the home page
+        .on('/Pag_details-events.html', showEsdeveniments) // Route for a specific page
+        .resolve(); // Resolve and handle the routes
+
+    // Function to show a list of events
+    function showEsdeveniments() {
+        // Make an AJAX GET request to fetch event data
+        $.getJSON('/api/esdeveniments', function (data) {
+            let html = $('#esdeveniments_template').render(data);
+            $('#app').html(html);
+            $('#myTable').DataTable();
+            attachEventListeners(data.esdeveniments); // Attach event listeners to the rendered data
+        });
+    }
+
+    // Function to attach event listeners to the events
+    function attachEventListeners(esdeveniments) {
+        $('#detail_botton').click(function () {
+            // Get the event ID from the clicked element in the HTML
+            const eventId = $(this).closest('tr').find('[data-id]').data('id');
+            showDetallEsdeveniment(eventId); // Show details for the selected event
+        });
+    }
+
+    // Function to show details for a specific event
+    function showDetallEsdeveniment(eventId) {
+        // Make an AJAX GET request to fetch specific event details
+        $.getJSON(`/api/esdeveniments/${eventId}`, function (eventDetails) {
+            let html = $('#detall_template').render(eventDetails);
+            $('#app').html(html);
+            $('#myTable').DataTable();
+        });
+    }
+
+    // Navigate to the default route when the document is ready
+    $(document).ready(function () {
+        router.navigate('/');
+    });
+</script>
+
+<!-- ///////////////////////////////  -->
+
+<br><br><br><br>
+
+<script src="javascripts/funciones.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+</body>
+</html>

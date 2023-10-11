@@ -1,0 +1,230 @@
+body {
+  font-family: Helvetica;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 150px;
+  padding-left: 50px;
+}
+
+.menu ul,
+.pages ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li,
+.pages li {
+  display: inline-block;
+}
+
+.menu a,
+.pages a {
+  text-decoration: none;
+  color: #333;
+  padding: 5px;
+}
+
+
+.botton:hover {
+  border-radius: 5px;
+  background-color: lightgray;
+}
+.selected{
+  border-radius: 5px;
+  border-bottom: grey 0.15rem solid;
+}
+
+.logo img {
+  max-height: 50px;
+}
+
+.pages .buy {
+  color: #222;
+  background-color: #999;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.menu .buy {
+  color: #fff; /* Color de texto */
+  background-color: #333; /* Color de fondo */
+  padding: 8px 12px; /* Espaciado interno */
+  border-radius: 5px; /* Borde redondeado */
+  display: inline-block; /* Mostrar como bloque */
+}
+
+.background {
+  padding-top: 30px;
+  position: relative;
+  z-index: 0;
+  background-color: #ccc;
+  border-radius: 0 0 50% 50% / 0 0 20px 20px;
+  height: 500px;
+}
+
+.background_recintes {
+  padding-top: 30px;
+  position: relative;
+  z-index: 0;
+  background-color: #ccc;
+  border-radius: 0 0 50% 50% / 0 0 20px 20px;
+  height: 380px;
+}
+
+.reserva{
+  padding: 17px 40px;
+  border-radius: 5px;
+  border: 0;
+  background-color: #c2bc9d;
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  transition: all .5s ease;
+}
+
+.reserva:hover{
+  background-color: hsl(39, 100%, 71%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgb(255, 204, 108) 0px 7px 29px 0px;
+}
+.reserva:active{
+  background-color: hsl(38, 100%, 68%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgb(255, 196, 91) 0px 0px 0px 0px;
+  transform: translateY(10px);
+  transition: 100ms;
+}
+
+div.container {
+  display: flex;
+  align-items: center;
+  padding: 5% 20%;
+}
+
+.content {
+    flex: 1;
+}
+
+.text {
+    text-align: left;
+}
+
+.title {
+    text-align: right;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-top: 0;
+    color: #888;
+}
+
+/*esitlo de tabla reserva*/
+.reserves_script{
+  padding: 100px;
+
+}
+
+.reserva_difuminado{
+  padding: 0px 10px;
+  background-color: #ffffff; /* Color de fondo del div */
+  border-radius: 10px; /* Radio de los bordes para lograr esquinas redondeadas */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #ff8f00;
+  font-weight: bold;
+}
+
+/* Estilos adicionales */
+div.card {
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #bfb375;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #9d9251;
+}
+
+a.btn {
+  text-decoration: none;
+  color: #fff;
+}
+a{
+  color: #fff;
+}
+a.btn:hover {
+  text-decoration: none;
+  color: #fff;
+}
+.esdev_img {
+  width: 200px;
+  height: auto;
+}
+
+.toast-success {
+  background-color: green;
+  color: white;
+}
+.details_container {
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+}
+
+.details, .img_details {
+  padding: 20px; /* Add some padding for spacing */
+}
+
+.details {
+  flex: 1; /* Take up available space */
+}
+
+.img_details {
+  flex: 1; /* Take up available space */
+  display: flex;
+  justify-content: center; /* Center the image horizontally */
+  align-items: center; /* Center the image vertically */
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
