@@ -1,5 +1,0 @@
-Creation of a Magic game involving life and poison management. First, I implemented a Guideline to achieve a symmetrical layout of each player's two sections in the interface. Then, I incorporated a variety of user interface elements, such as buttons, image buttons and TextView.
-
-The "P" buttons allow players to increase or decrease the amount of poison they have. Life indicators were also included on the sides of the screen to show the amount of lives after winning or losing moves.
-
-Finally, I implemented two buttons with arrows in the centre that allow the players to to exchange lives with each other, providing an additional mechanic for the game. I identified several problems related to the tutorial. For example, replacing the call "findViewById" with "binding" to establish a direct connection to the XML file. Make the necessary modifications to the "onCreateView" and "onViewCreated" methods. Also, the "onCreateOptionsMenu" method had to be eliminated because it generated a duplication of the reset button when displayed in the emulator.
